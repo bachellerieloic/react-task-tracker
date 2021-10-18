@@ -10,12 +10,11 @@ import Icon from '@mui/material/Icon'
 import { red } from '@mui/material/colors'
 
 export default function Tasks({ tasks, onToggle, onDelete }) {
-	return (
+	const tasksList = (
 		<List
-			className='mt-2'
 			sx={{
 				width: '100%',
-				mt: 4,
+				mt: 2,
 				maxWidth: 360,
 				mx: 'auto',
 				bgcolor: 'background.paper',
@@ -54,4 +53,8 @@ export default function Tasks({ tasks, onToggle, onDelete }) {
 			})}
 		</List>
 	)
+
+	const noTasks = <h2>No Tasks To show</h2>
+
+	return tasks.length > 0 ? tasksList : noTasks
 }

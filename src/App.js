@@ -1,8 +1,9 @@
 import './App.css'
 import NavBar from './components/NavBar'
-import IconButton from '@mui/material/IconButton'
-import Icon from '@mui/material/Icon'
 import TaskList from './components/TaskList'
+import AddTaskModal from './components/AddTaskModal'
+import Button from '@mui/material/Button'
+import Icon from '@mui/material/Icon'
 import * as React from 'react'
 import { useState } from 'react'
 
@@ -27,6 +28,14 @@ const App = () => {
 			checked: true,
 		},
 	])
+	const [showModal, setShowModal] = useState(false)
+	const handleOpen = () => setShowModal(true)
+	const handleClose = () => setShowModal(false)
+
+	const handleSave = (task) => {
+		setTasks([...tasks, task])
+		handleClose()
+	}
 
 	const deleteTask = (id) => {
 		setTasks(tasks.filter((task) => task.id !== id))
@@ -43,14 +52,20 @@ const App = () => {
 	return (
 		<div className='App'>
 			<NavBar />
-			{tasks.length > 0 ? (
-				<TaskList tasks={tasks} onToggle={toggle} onDelete={deleteTask} />
-			) : (
-				'No Tasks to show'
-			)}
-			<IconButton aria-label='add'>
-				<Icon>add_circle</Icon>
-			</IconButton>
+			<Button
+				variant='contained'
+				startIcon={<Icon>add_circle</Icon>}
+				onClick={handleOpen}
+				sx={{ mt: 4 }}
+			>
+				Add Task
+			</Button>
+			<AddTaskModal
+				isOpen={showModal}
+				onClose={handleClose}
+				onSave={handleSave}
+			/>
+			<TaskList tasks={tasks} onToggle={toggle} onDelete={deleteTask} />
 		</div>
 	)
 }
